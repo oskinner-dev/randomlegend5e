@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RandomLegend 5e - Ultimate D&D 5e Level 1 Character Generator. Every Official Race, Class, Background. Instant PDFs. DM Approved.">
+    <meta name="theme-color" content="#8b5cf6">
+    <title>RandomLegend 5e - D&D Character Generator</title>
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --accent-primary: #8b5cf6;
+            --accent-secondary: #a78bfa;
+            --accent-hover: #7c3aed;
+            --border-color: #475569;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow: rgba(0, 0, 0, 0.5);
+        }
+        
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            padding: 1.5rem 1rem;
+            box-shadow: 0 4px 6px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tagline {
+            color: rgba(255,255,255,0.95);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .header-controls {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        
+        .theme-toggle, .lang-toggle {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover, .lang-toggle:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        /* ===== SECTION STYLES ===== */
+        .section {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* ===== BUTTON STYLES ===== */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+        
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        /* ===== GRID LAYOUT ===== */
+        .grid {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+        
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+        
+        /* ===== RANDOMIZER CONTROLS ===== */
+        .randomizer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .randomizer-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .randomizer-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px var(--shadow);
+        }
+        
+        .randomizer-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--accent-secondary);
+        }
+        
+        .randomizer-card .result {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            min-height: 80px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        
+        .randomizer-card .result.filled {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        /* ===== CHARACTER SHEET ===== */
+        .character-sheet {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            display: none;
+        }
+        
+        .character-sheet.active {
+            display: block;
+        }
+        
+        .character-header {
+            text-align: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .character-name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .character-subtitle {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .stat-box {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            border: 2px solid var(--border-color);
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+        }
+        
+        .stat-modifier {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .info-item {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        
+        .info-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+        
+        .info-value {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        /* ===== DICE ANIMATION ===== */
+        .dice-roller {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .dice-roller.active {
+            opacity: 1;
+        }
+        
+        .dice {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            font-weight: 800;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.6);
+            animation: rollDice 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        @keyframes rollDice {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.2); }
+            50% { transform: rotate(180deg) scale(0.8); }
+            75% { transform: rotate(270deg) scale(1.2); }
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .randomizer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .header, .section:not(.character-sheet), .btn {
+                display: none;
+            }
+            
+            .character-sheet {
+                display: block !important;
+                border: 2px solid black;
+                page-break-inside: avoid;
+            }
+        }
+        
+        /* ===== UTILITIES ===== */
+        .hidden {
+            display: none;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .trait-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .trait-list li {
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 0.375rem;
+            border-left: 3px solid var(--accent-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <div class="logo">🎲 RandomLegend 5e</div>
+                <div class="tagline">Every Official Option • Instant PDFs • DM Approved</div>
+            </div>
+            <div class="header-controls">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
+                <button class="lang-toggle" onclick="toggleLang()">🌐 EN</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <!-- HERO SECTION -->
+        <section class="section text-center">
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Ultimate D&D 5e Character Generator</h1>
+            <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                98 Races • 100+ Subclasses • 50+ Backgrounds • Instant Character Sheets
+            </p>
+            <button class="btn btn-primary btn-lg" onclick="generateFullCharacter()">
+                ⚡ Generate Random Character
+            </button>
+        </section>
+
+        <!-- INDIVIDUAL RANDOMIZERS -->
+        <section class="section">
+            <h2 class="section-title">🎯 Individual Randomizers</h2>
+            <div class="randomizer-grid">
+                <!-- Race Randomizer -->
+                <div class="randomizer-card">
+                    <h3>🧝 Race</h3>
+                    <div class="result" id="race-result">Click to randomize</div>
+                    <button class="btn btn-primary btn-block" onclick="randomizeRace()">Roll Race</button>
+                </div>
+
+                <!-- Class Randomizer -->
+                <div class="randomizer-card">
+                    <h3>⚔️ Class & Subclass</h3>
+                    <div class="result" id="class-result">Click to randomize</div>
+                    <button class="btn btn-primary btn-block" onclick="randomizeClass()">Roll Class</button>
+                </div>
+
+                <!-- Background Randomizer -->
+                <div class="randomizer-card">
+                    <h3>📜 Background</h3>
+                    <div class="result" id="background-result">Click to randomize</div>
+                    <button class="btn btn-primary btn-block" onclick="randomizeBackground()">Roll Background</button>
+                </div>
+
+                <!-- Stats Randomizer -->
+                <div class="randomizer-card">
+                    <h3>📊 Ability Scores</h3>
+                    <div class="result" id="stats-result">Click to randomize (4d6 drop lowest)</div>
+                    <button class="btn btn-primary btn-block" onclick="randomizeStats()">Roll Stats</button>
+                </div>
+
+                <!-- Personality Randomizer -->
+                <div class="randomizer-card">
+                    <h3>🎭 Personality</h3>
+                    <div class="result" id="personality-result">Click to randomize</div>
+                    <button class="btn btn-primary btn-block" onclick="randomizePersonality()">Roll Personality</button>
+                </div>
+
+                <!-- Name Randomizer -->
+                <div class="randomizer-card">
+                    <h3>✨ Character Name</h3>
+                    <div class="result" id="name-result">Click to randomize</div>
+                    <button class="btn btn-primary btn-block" onclick="randomizeName()">Roll Name</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- BATCH GENERATION -->
+        <section class="section">
+            <h2 class="section-title">🔢 Batch Generator</h2>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <label style="font-weight: 600;">Generate:</label>
+                <select id="batch-count" style="padding: 0.5rem; border-radius: 0.375rem; background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-color);">
+                    <option value="1">1 Character</option>
+                    <option value="5">5 Characters</option>
+                    <option value="10">10 Characters</option>
+                    <option value="20">20 Characters</option>
+                </select>
+                <button class="btn btn-primary" onclick="generateBatch()">Generate Batch</button>
+            </div>
+            <div id="batch-results" class="mt-3"></div>
+        </section>
+
+        <!-- CHARACTER SHEET -->
+        <section class="section character-sheet" id="character-sheet">
+            <div class="character-header">
+                <h1 class="character-name" id="char-name">Thorin Ironforge</h1>
+                <p class="character-subtitle" id="char-subtitle">Level 1 Hill Dwarf Fighter (Champion)</p>
+            </div>
+
+            <!-- ABILITY SCORES -->
+            <div>
+                <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Ability Scores</h3>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-label">STR</div>
+                        <div class="stat-value" id="stat-str">16</div>
+                        <div class="stat-modifier" id="mod-str">+3</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">DEX</div>
+                        <div class="stat-value" id="stat-dex">14</div>
+                        <div class="stat-modifier" id="mod-dex">+2</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">CON</div>
+                        <div class="stat-value" id="stat-con">15</div>
+                        <div class="stat-modifier" id="mod-con">+2</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">INT</div>
+                        <div class="stat-value" id="stat-int">10</div>
+                        <div class="stat-modifier" id="mod-int">+0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">WIS</div>
+                        <div class="stat-value" id="stat-wis">12</div>
+                        <div class="stat-modifier" id="mod-wis">+1</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">CHA</div>
+                        <div class="stat-value" id="stat-cha">8</div>
+                        <div class="stat-modifier" id="mod-cha">-1</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CORE INFO -->
+            <div class="mt-3">
+                <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Core Information</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">HP</div>
+                        <div class="info-value" id="char-hp">12</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">AC</div>
+                        <div class="info-value" id="char-ac">16</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Speed</div>
+                        <div class="info-value" id="char-speed">25 ft</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Initiative</div>
+                        <div class="info-value" id="char-initiative">+2</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Proficiency</div>
+                        <div class="info-value">+2</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Hit Die</div>
+                        <div class="info-value" id="char-hitdie">1d10</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFICIENCIES -->
+            <div class="mt-3">
+                <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Proficiencies & Skills</h3>
+                <div id="proficiencies-content"></div>
+            </div>
+
+            <!-- RACIAL TRAITS -->
+            <div class="mt-3">
+                <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Racial Traits</h3>
+                <ul class="trait-list" id="racial-traits"></ul>
+            </div>
+
+            <!-- CLASS FEATURES -->
+            <div class="mt-3">
+                <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Class Features</h3>
+                <ul class="trait-list" id="class-features"></ul>
+            </div>
+
+            <!-- EQUIPMENT -->
+            <div class="mt-3">
+                <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Starting Equipment</h3>
+                <ul class="trait-list" id="equipment-list"></ul>
+            </div>
+
+            <!-- BACKGROUND -->
+            <div class="mt-3">
+                <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Background</h3>
+                <div id="background-content"></div>
+            </div>
+
+            <!-- EXPORT BUTTONS -->
+            <div class="mt-3" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="exportJSON()">📥 Export JSON</button>
+                <button class="btn btn-primary" onclick="exportPDF()">📄 Export PDF</button>
+                <button class="btn btn-primary" onclick="shareCharacter()">🔗 Share Link</button>
+                <button class="btn btn-secondary" onclick="saveToFavorites()">⭐ Save to Favorites</button>
+                <button class="btn btn-secondary" onclick="window.print()">🖨️ Print</button>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer style="text-align: center; padding: 2rem; color: var(--text-muted);">
+            <p>RandomLegend5e.com • Free for your game • Watermarked PDFs</p>
+            <p style="font-size: 0.875rem; margin-top: 0.5rem;">All content © Wizards of the Coast</p>
+        </footer>
+    </div>
+
+    <!-- DICE ROLLER ANIMATION -->
+    <div class="dice-roller" id="dice-roller">
+        <div class="dice" id="dice-display">🎲</div>
+    </div>
+
+    <script>
+        // ===== GLOBAL STATE =====
+        let currentCharacter = null;
+        let currentTheme = 'dark';
+        let currentLang = 'en';
+
+        // ===== DATA IMPORTS =====
+        // In production, these would be loaded from external files
+        // For now, we'll embed simplified data
+        
+        const RACES_DATA = [
+            {name: "Human", subrace: "Standard", asi: {str:1,dex:1,con:1,int:1,wis:1,cha:1}, speed: 30, traits: ["Versatile"]},
+            {name: "Human", subrace: "Variant", asi: "Choose +1 to two", speed: 30, traits: ["Feat", "Skill"]},
+            {name: "Dwarf", subrace: "Hill", asi: {con:2,wis:1}, speed: 25, traits: ["Darkvision", "Dwarven Toughness"]},
+            {name: "Dwarf", subrace: "Mountain", asi: {con:2,str:2}, speed: 25, traits: ["Darkvision", "Armor Training"]},
+            {name: "Elf", subrace: "High", asi: {dex:2,int:1}, speed: 30, traits: ["Darkvision", "Fey Ancestry", "Cantrip"]},
+            {name: "Elf", subrace: "Wood", asi: {dex:2,wis:1}, speed: 35, traits: ["Darkvision", "Mask of the Wild"]},
+            {name: "Elf", subrace: "Drow", asi: {dex:2,cha:1}, speed: 30, traits: ["Superior Darkvision", "Drow Magic"]},
+            {name: "Halfling", subrace: "Lightfoot", asi: {dex:2,cha:1}, speed: 25, traits: ["Lucky", "Naturally Stealthy"]},
+            {name: "Halfling", subrace: "Stout", asi: {dex:2,con:1}, speed: 25, traits: ["Lucky", "Stout Resilience"]},
+            {name: "Dragonborn", subrace: "Red (Fire)", asi: {str:2,cha:1}, speed: 30, traits: ["Fire Resistance", "Breath Weapon"]},
+            {name: "Gnome", subrace: "Rock", asi: {int:2,con:1}, speed: 25, traits: ["Darkvision", "Artificer's Lore"]},
+            {name: "Half-Elf", subrace: "Standard", asi: {cha:2}, speed: 30, traits: ["Darkvision", "Fey Ancestry", "Skill Versatility"]},
+            {name: "Half-Orc", subrace: "Standard", asi: {str:2,con:1}, speed: 30, traits: ["Darkvision", "Relentless Endurance"]},
+            {name: "Tiefling", subrace: "Asmodeus", asi: {cha:2,int:1}, speed: 30, traits: ["Darkvision", "Hellish Resistance", "Infernal Legacy"]},
+        ];
+
+        const CLASSES_DATA = [
+            {name: "Barbarian", hitDie: "d12", subclasses: ["Berserker", "Totem Warrior"], primary: ["STR"]},
+            {name: "Bard", hitDie: "d8", subclasses: ["Lore", "Valor"], primary: ["CHA"]},
+            {name: "Cleric", hitDie: "d8", subclasses: ["Life", "Light", "War"], primary: ["WIS"]},
+            {name: "Druid", hitDie: "d8", subclasses: ["Land", "Moon"], primary: ["WIS"]},
+            {name: "Fighter", hitDie: "d10", subclasses: ["Champion", "Battle Master", "Eldritch Knight"], primary: ["STR", "DEX"]},
+            {name: "Monk", hitDie: "d8", subclasses: ["Open Hand", "Shadow"], primary: ["DEX", "WIS"]},
+            {name: "Paladin", hitDie: "d10", subclasses: ["Devotion", "Ancients", "Vengeance"], primary: ["STR", "CHA"]},
+            {name: "Ranger", hitDie: "d10", subclasses: ["Hunter", "Beast Master"], primary: ["DEX", "WIS"]},
+            {name: "Rogue", hitDie: "d8", subclasses: ["Thief", "Assassin", "Arcane Trickster"], primary: ["DEX"]},
+            {name: "Sorcerer", hitDie: "d6", subclasses: ["Draconic", "Wild Magic"], primary: ["CHA"]},
+            {name: "Warlock", hitDie: "d8", subclasses: ["Fiend", "Archfey", "Great Old One"], primary: ["CHA"]},
+            {name: "Wizard", hitDie: "d6", subclasses: ["Evocation", "Abjuration", "Divination"], primary: ["INT"]},
+        ];
+
+        const BACKGROUNDS_DATA = [
+            {name: "Acolyte", skills: ["Insight", "Religion"], feature: "Shelter of the Faithful"},
+            {name: "Charlatan", skills: ["Deception", "Sleight of Hand"], feature: "False Identity"},
+            {name: "Criminal", skills: ["Deception", "Stealth"], feature: "Criminal Contact"},
+            {name: "Entertainer", skills: ["Acrobatics", "Performance"], feature: "By Popular Demand"},
+            {name: "Folk Hero", skills: ["Animal Handling", "Survival"], feature: "Rustic Hospitality"},
+            {name: "Noble", skills: ["History", "Persuasion"], feature: "Position of Privilege"},
+            {name: "Sage", skills: ["Arcana", "History"], feature: "Researcher"},
+            {name: "Soldier", skills: ["Athletics", "Intimidation"], feature: "Military Rank"},
+            {name: "Urchin", skills: ["Sleight of Hand", "Stealth"], feature: "City Secrets"},
+        ];
+
+        const PERSONALITY_TRAITS = [
+            "I idolize a particular hero and constantly refer to their deeds.",
+            "I can find common ground between the fiercest enemies.",
+            "I'm always picking things up, absently fiddling with them.",
+            "I have a crude sense of humor.",
+            "I'm confident in my own abilities and do what I can to instill confidence in others.",
+            "I face problems head-on. A simple, direct solution is the best path to success.",
+        ];
+
+        const NAMES = {
+            human: ["Alric", "Brenna", "Cedric", "Diana", "Erik", "Fiona", "Garrett", "Helena"],
+            dwarf: ["Thorin", "Dain", "Gimli", "Balin", "Dori", "Nori", "Ori", "Gloin"],
+            elf: ["Legolas", "Arwen", "Elrond", "Galadriel", "Thranduil", "Tauriel"],
+            halfling: ["Bilbo", "Frodo", "Samwise", "Merry", "Pippin", "Rosie"],
+        };
+
+        // ===== UTILITY FUNCTIONS =====
+        function rollDice(sides) {
+            return Math.floor(Math.random() * sides) + 1;
+        }
+
+        function roll4d6DropLowest() {
+            const rolls = [rollDice(6), rollDice(6), rollDice(6), rollDice(6)];
+            rolls.sort((a, b) => a - b);
+            rolls.shift(); // Remove lowest
+            return rolls.reduce((a, b) => a + b, 0);
+        }
+
+        function getModifier(score) {
+            return Math.floor((score - 10) / 2);
+        }
+
+        function randomChoice(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function showDiceAnimation(result) {
+            const roller = document.getElementById('dice-roller');
+            const display = document.getElementById('dice-display');
+            roller.classList.add('active');
+            display.textContent = result;
+            setTimeout(() => roller.classList.remove('active'), 1000);
+        }
+
+        // ===== THEME & LANGUAGE =====
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.querySelector('.theme-toggle');
+            if (currentTheme === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                btn.textContent = '☀️ Light';
+                currentTheme = 'light';
+            } else {
+                body.removeAttribute('data-theme');
+                btn.textContent = '🌙 Dark';
+                currentTheme = 'dark';
+            }
+            localStorage.setItem('theme', currentTheme);
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'th' : 'en';
+            const btn = document.querySelector('.lang-toggle');
+            btn.textContent = currentLang === 'en' ? '🌐 EN' : '🌐 TH';
+            // In production, this would reload text content in Thai
+        }
+
+        // ===== RANDOMIZERS =====
+        function randomizeRace() {
+            const race = randomChoice(RACES_DATA);
+            const display = `<strong>${race.name} (${race.subrace})</strong><br>
+                Speed: ${race.speed}ft<br>
+                Traits: ${race.traits.join(', ')}`;
+            document.getElementById('race-result').innerHTML = display;
+            document.getElementById('race-result').classList.add('filled');
+            showDiceAnimation('🧝');
+        }
+
+        function randomizeClass() {
+            const cls = randomChoice(CLASSES_DATA);
+            const subclass = randomChoice(cls.subclasses);
+            const display = `<strong>${cls.name}</strong><br>
+                Subclass: ${subclass}<br>
+                Hit Die: ${cls.hitDie}<br>
+                Primary: ${cls.primary.join(' or ')}`;
+            document.getElementById('class-result').innerHTML = display;
+            document.getElementById('class-result').classList.add('filled');
+            showDiceAnimation('⚔️');
+        }
+
+        function randomizeBackground() {
+            const bg = randomChoice(BACKGROUNDS_DATA);
+            const display = `<strong>${bg.name}</strong><br>
+                Skills: ${bg.skills.join(', ')}<br>
+                Feature: ${bg.feature}`;
+            document.getElementById('background-result').innerHTML = display;
+            document.getElementById('background-result').classList.add('filled');
+            showDiceAnimation('📜');
+        }
+
+        function randomizeStats() {
+            const stats = {
+                str: roll4d6DropLowest(),
+                dex: roll4d6DropLowest(),
+                con: roll4d6DropLowest(),
+                int: roll4d6DropLowest(),
+                wis: roll4d6DropLowest(),
+                cha: roll4d6DropLowest()
+            };
+            const display = `<strong>Ability Scores (4d6 drop lowest):</strong><br>
+                STR: ${stats.str} (${getModifier(stats.str) >= 0 ? '+' : ''}${getModifier(stats.str)})<br>
+                DEX: ${stats.dex} (${getModifier(stats.dex) >= 0 ? '+' : ''}${getModifier(stats.dex)})<br>
+                CON: ${stats.con} (${getModifier(stats.con) >= 0 ? '+' : ''}${getModifier(stats.con)})<br>
+                INT: ${stats.int} (${getModifier(stats.int) >= 0 ? '+' : ''}${getModifier(stats.int)})<br>
+                WIS: ${stats.wis} (${getModifier(stats.wis) >= 0 ? '+' : ''}${getModifier(stats.wis)})<br>
+                CHA: ${stats.cha} (${getModifier(stats.cha) >= 0 ? '+' : ''}${getModifier(stats.cha)})`;
+            document.getElementById('stats-result').innerHTML = display;
+            document.getElementById('stats-result').classList.add('filled');
+            showDiceAnimation('🎲');
+        }
+
+        function randomizePersonality() {
+            const trait = randomChoice(PERSONALITY_TRAITS);
+            document.getElementById('personality-result').innerHTML = `<strong>${trait}</strong>`;
+            document.getElementById('personality-result').classList.add('filled');
+            showDiceAnimation('🎭');
+        }
+
+        function randomizeName() {
+            const nameList = randomChoice([NAMES.human, NAMES.dwarf, NAMES.elf, NAMES.halfling]);
+            const name = randomChoice(nameList);
+            document.getElementById('name-result').innerHTML = `<strong>${name}</strong>`;
+            document.getElementById('name-result').classList.add('filled');
+            showDiceAnimation('✨');
+        }
+
+        // ===== FULL CHARACTER GENERATION =====
+        function generateFullCharacter() {
+            // Generate all components
+            const race = randomChoice(RACES_DATA);
+            const cls = randomChoice(CLASSES_DATA);
+            const subclass = randomChoice(cls.subclasses);
+            const background = randomChoice(BACKGROUNDS_DATA);
+            
+            // Generate stats
+            const baseStats = {
+                str: roll4d6DropLowest(),
+                dex: roll4d6DropLowest(),
+                con: roll4d6DropLowest(),
+                int: roll4d6DropLowest(),
+                wis: roll4d6DropLowest(),
+                cha: roll4d6DropLowest()
+            };
+
+            // Apply racial ASI
+            const finalStats = {...baseStats};
+            if (typeof race.asi === 'object') {
+                Object.keys(race.asi).forEach(stat => {
+                    finalStats[stat] = (finalStats[stat] || 0) + race.asi[stat];
+                });
+            }
+
+            // Calculate HP
+            const hitDieValue = parseInt(cls.hitDie.substring(1));
+            const hp = hitDieValue + getModifier(finalStats.con);
+
+            // Generate name
+            const nameList = NAMES[race.name.toLowerCase()] || NAMES.human;
+            const charName = randomChoice(nameList);
+
+            // Create character object
+            currentCharacter = {
+                name: charName,
+                race: race,
+                class: cls,
+                subclass: subclass,
+                background: background,
+                stats: finalStats,
+                hp: hp,
+                level: 1
+            };
+
+            // Display character sheet
+            displayCharacterSheet();
+        }
+
+        function displayCharacterSheet() {
+            const char = currentCharacter;
+            
+            // Update header
+            document.getElementById('char-name').textContent = char.name;
+            document.getElementById('char-subtitle').textContent = 
+                `Level ${char.level} ${char.race.name} (${char.race.subrace}) ${char.class.name} (${char.subclass})`;
+
+            // Update stats
+            ['str', 'dex', 'con', 'int', 'wis', 'cha'].forEach(stat => {
+                const value = char.stats[stat];
+                const modifier = getModifier(value);
+                document.getElementById(`stat-${stat}`).textContent = value;
+                document.getElementById(`mod-${stat}`).textContent = 
+                    `${modifier >= 0 ? '+' : ''}${modifier}`;
+            });
+
+            // Update core info
+            document.getElementById('char-hp').textContent = char.hp;
+            document.getElementById('char-ac').textContent = 10 + getModifier(char.stats.dex);
+            document.getElementById('char-speed').textContent = `${char.race.speed} ft`;
+            document.getElementById('char-initiative').textContent = 
+                `${getModifier(char.stats.dex) >= 0 ? '+' : ''}${getModifier(char.stats.dex)}`;
+            document.getElementById('char-hitdie').textContent = char.class.hitDie;
+
+            // Update racial traits
+            const traitsHtml = char.race.traits.map(trait => `<li>${trait}</li>`).join('');
+            document.getElementById('racial-traits').innerHTML = traitsHtml;
+
+            // Update proficiencies
+            const profHtml = `
+                <div class="info-item">
+                    <div class="info-label">Saving Throws</div>
+                    <div class="info-value">Based on class</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Skills</div>
+                    <div class="info-value">${char.background.skills.join(', ')}</div>
+                </div>
+            `;
+            document.getElementById('proficiencies-content').innerHTML = profHtml;
+
+            // Update class features
+            const classFeatures = [
+                `${char.class.name} Level 1 Features`,
+                `Hit Die: ${char.class.hitDie}`,
+                `Primary Ability: ${char.class.primary.join(' or ')}`
+            ];
+            const featuresHtml = classFeatures.map(f => `<li>${f}</li>`).join('');
+            document.getElementById('class-features').innerHTML = featuresHtml;
+
+            // Update equipment
+            const equipment = [
+                "Starting equipment based on class",
+                "Common clothes",
+                "Backpack",
+                "Basic adventuring gear"
+            ];
+            const equipHtml = equipment.map(e => `<li>${e}</li>`).join('');
+            document.getElementById('equipment-list').innerHTML = equipHtml;
+
+            // Update background
+            const bgHtml = `
+                <div class="info-item">
+                    <div class="info-label">Background</div>
+                    <div class="info-value">${char.background.name}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Feature</div>
+                    <div class="info-value">${char.background.feature}</div>
+                </div>
+            `;
+            document.getElementById('background-content').innerHTML = bgHtml;
+
+            // Show character sheet
+            document.getElementById('character-sheet').classList.add('active');
+            document.getElementById('character-sheet').scrollIntoView({behavior: 'smooth'});
+        }
+
+        // ===== BATCH GENERATION =====
+        function generateBatch() {
+            const count = parseInt(document.getElementById('batch-count').value);
+            const container = document.getElementById('batch-results');
+            container.innerHTML = '<h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Generated Characters:</h3>';
+            
+            for (let i = 0; i < count; i++) {
+                const race = randomChoice(RACES_DATA);
+                const cls = randomChoice(CLASSES_DATA);
+                const subclass = randomChoice(cls.subclasses);
+                const background = randomChoice(BACKGROUNDS_DATA);
+                const nameList = NAMES[race.name.toLowerCase()] || NAMES.human;
+                const name = randomChoice(nameList);
+                
+                const card = document.createElement('div');
+                card.className = 'info-item';
+                card.innerHTML = `
+                    <strong style="color: var(--accent-primary);">${i + 1}. ${name}</strong><br>
+                    ${race.name} (${race.subrace}) ${cls.name} (${subclass})<br>
+                    Background: ${background.name}
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        // ===== EXPORT FUNCTIONS =====
+        function exportJSON() {
+            if (!currentCharacter) {
+                alert('Generate a character first!');
+                return;
+            }
+            
+            const json = JSON.stringify(currentCharacter, null, 2);
+            const blob = new Blob([json], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentCharacter.name.replace(/\s+/g, '_')}_character.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function exportPDF() {
+            if (!currentCharacter) {
+                alert('Generate a character first!');
+                return;
+            }
+            
+            // Simple implementation: use browser print
+            alert('Use the Print button to save as PDF via your browser!');
+            window.print();
+        }
+
+        function shareCharacter() {
+            if (!currentCharacter) {
+                alert('Generate a character first!');
+                return;
+            }
+            
+            // Create shareable URL with character data
+            const encoded = btoa(JSON.stringify(currentCharacter));
+            const shareUrl = `${window.location.origin}${window.location.pathname}#char=${encoded}`;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                alert('Share link copied to clipboard!');
+            }).catch(() => {
+                prompt('Copy this link:', shareUrl);
+            });
+        }
+
+        function saveToFavorites() {
+            if (!currentCharacter) {
+                alert('Generate a character first!');
+                return;
+            }
+            
+            const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            favorites.push(currentCharacter);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            alert('Character saved to favorites!');
+        }
+
+        // ===== INITIALIZATION =====
+        function init() {
+            // Load theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                toggleTheme();
+            }
+            
+            // Check for shared character in URL
+            const hash = window.location.hash;
+            if (hash.startsWith('#char=')) {
+                try {
+                    const encoded = hash.substring(6);
+                    currentCharacter = JSON.parse(atob(encoded));
+                    displayCharacterSheet();
+                } catch (e) {
+                    console.error('Failed to load shared character:', e);
+                }
+            }
+        }
+
+        // Run initialization when page loads
+        document.addEventListener('DOMContentLoaded', init);
+
+        // ===== SERVICE WORKER FOR PWA =====
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(() => {
+                    console.log('Service worker registration failed');
+                });
+            });
+        }
+    </script>
+</body>
+</html>
