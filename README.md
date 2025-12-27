@@ -45,37 +45,6 @@ RandomLegend5e/
 ├── PHASE-1-COMPLETE.md # Data collection summary
 └── README.md          # This file
 ```
-
----
-
-## 🎯 QUICK START
-
-### Option 1: Open Locally
-1. Open `index.html` in any web browser
-2. Start generating characters!
-
-### Option 2: Deploy to GitHub Pages
-```bash
-# Initialize git repository
-cd RandomLegend5e
-git init
-git add .
-git commit -m "Initial commit - RandomLegend 5e"
-
-# Create GitHub repo and push
-git remote add origin https://github.com/YOUR-USERNAME/randomlegend5e.git
-git branch -M main
-git push -u origin main
-
-# Enable GitHub Pages
-# Go to Settings → Pages → Source: main branch → Save
-# Your app will be live at: https://YOUR-USERNAME.github.io/randomlegend5e/
-```
-
-### Option 3: Deploy to Netlify/Vercel
-- Drag the `RandomLegend5e` folder into Netlify Drop
-- Instant deployment!
-
 ---
 
 ## 🎮 HOW TO USE
@@ -177,38 +146,7 @@ Update watermark and branding:
 - Line 62: `<div class="tagline">YOUR TAGLINE</div>`
 - Line 181: Footer text
 
-### Localization (Thai Support Ready)
-The `toggleLang()` function is ready for Thai translation. Add translations:
-```javascript
-const LANG = {
-    en: {title: "Generate Random Character", ...},
-    th: {title: "สร้างตัวละครแบบสุ่ม", ...}
-};
-```
 
----
-
-## 📈 WHAT'S NEXT
-
-### Phase 2: Content Pipeline
-- [ ] Viral TikTok/YouTube script generator
-- [ ] Midjourney art prompt generator
-- [ ] SEO hashtag generator
-- [ ] 10 pre-built content templates
-
-### Phase 3: Enhanced Features
-- [ ] Advanced stat array options (point buy, standard array)
-- [ ] Full spell list generation
-- [ ] Detailed equipment tables
-- [ ] Character portrait generator integration
-- [ ] Multi-language support (Thai)
-
-### Phase 4: Monetization
-- [ ] Usage analytics dashboard
-- [ ] Premium portrait generation ($2)
-- [ ] Batch PDF export ($5)
-- [ ] Affiliate links integration
-- [ ] Patreon/Ko-fi embeds
 
 ---
 
@@ -251,7 +189,7 @@ Want to enhance RandomLegend 5e?
 - ✅ Dark/light themes
 - ✅ Print-optimized character sheets
 
-**STATUS**: Phase 1 Core App - ✅ **COMPLETE AND FUNCTIONAL**
+
 
 ---
 
