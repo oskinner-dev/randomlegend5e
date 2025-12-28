@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RandomLegend">
+    <meta name="description" content="RandomLegend 5e - Ultimate D&D Character Generator">
+    <meta name="theme-color" content="#2d1810">
+    <title>RandomLegend 5e - D&D Character Generator</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎲</text></svg>">
+    
+    <style>
+        /* ===== FANTASY D&D THEME ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+        
+        :root {
+            /* D&D Color Palette */
+            --parchment: #f4e8d8;
+            --parchment-dark: #e8d4b8;
+            --ink-black: #2d1810;
+            --ink-brown: #4a3728;
+            --gold: #d4af37;
+            --gold-dark: #b8941f;
+            --crimson: #8b1a1a;
+            --deep-red: #6b0f0f;
+            --leather: #5c4033;
+            --aged-paper: #fef9e7;
+            --shadow: rgba(45, 24, 16, 0.3);
+            --border-ornate: #8b7355;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Crimson Text', serif;
+            background: 
+                linear-gradient(rgba(45, 24, 16, 0.05), rgba(45, 24, 16, 0.05)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><filter id="n"><feTurbulence baseFrequency="0.9" numOctaves="3"/></filter><rect width="400" height="400" filter="url(%23n)" opacity="0.05"/></svg>'),
+                linear-gradient(135deg, var(--parchment) 0%, var(--parchment-dark) 100%);
+            color: var(--ink-black);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* ===== MEDIEVAL HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, var(--leather) 0%, var(--ink-brown) 100%);
+            padding: 1.5rem 1rem;
+            box-shadow: 
+                0 4px 12px var(--shadow),
+                inset 0 -2px 0 rgba(212, 175, 55, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-top: 3px solid var(--gold);
+            border-bottom: 3px solid var(--gold);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--gold);
+            text-shadow: 
+                2px 2px 0 var(--ink-black),
+                0 0 20px rgba(212, 175, 55, 0.5);
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-dice {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6));
+            animation: gentleFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        .tagline {
+            font-family: 'Crimson Text', serif;
+            color: var(--aged-paper);
+            font-size: 0.9rem;
+            font-style: italic;
+            text-shadow: 1px 1px 2px var(--ink-black);
+            letter-spacing: 1px;
+        }
+        
+        .header-controls {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .theme-toggle, .lang-toggle {
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 0.5rem 1.25rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .theme-toggle:hover, .lang-toggle:hover {
+            background: var(--gold);
+            color: var(--ink-black);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+        }
+        
+        /* ===== PARCHMENT CONTAINER ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        /* ===== SCROLL/PARCHMENT SECTIONS ===== */
+        .section {
+            background: 
+                linear-gradient(to bottom, 
+                    rgba(244, 232, 216, 0.95) 0%,
+                    rgba(254, 249, 231, 0.95) 50%,
+                    rgba(244, 232, 216, 0.95) 100%
+                );
+            border-radius: 8px;
+            padding: 2.5rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 
+                0 8px 24px var(--shadow),
+                inset 0 0 60px rgba(139, 115, 85, 0.1);
+            border: 3px solid var(--border-ornate);
+            position: relative;
+        }
+        
+        .section::before,
+        .section::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            left: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--gold) 20%, 
+                var(--gold) 80%, 
+                transparent
+            );
+        }
+        
+        .section::before { top: 0; }
+        .section::after { bottom: 0; }
+        
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.75rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: var(--crimson);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--crimson), transparent);
+        }
+        
+        /* ===== ORNATE BUTTONS ===== */
+        .btn {
+            padding: 0.875rem 2rem;
+            border: 3px solid var(--gold);
+            border-radius: 4px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--crimson), var(--deep-red));
+            color: var(--gold);
+            box-shadow: 0 4px 12px rgba(139, 26, 26, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(139, 26, 26, 0.6);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--leather), var(--ink-brown));
+            color: var(--gold);
+        }
+        
+        .btn-lg {
+            padding: 1.25rem 2.5rem;
+            font-size: 1.25rem;
+        }
+        
+        .btn-block {
+            width: 100%;
+        }
+        
+        /* ===== RANDOMIZER CARDS (SCROLL STYLE) ===== */
+        .randomizer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .randomizer-card {
+            background: 
