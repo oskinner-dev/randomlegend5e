@@ -1,0 +1,963 @@
+/* ==============================================
+   RANDOMLEGEND 5E - D&D BEYOND STYLE
+   Character Creator & Official Sheet Layout
+   ============================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Modesto+Condensed&display=swap');
+
+:root {
+    /* D&D Official Colors */
+    --dnd-red: #c53131;
+    --dnd-red-dark: #a12929;
+    --parchment: #f5f3e8;
+    --parchment-dark: #e8e3d0;
+    --ink: #242527;
+    --border-dark: #58180d;
+    --gold: #d4a574;
+    --text-muted: #666;
+    
+    /* D&D Beyond Colors */
+    --beyond-bg: #1b1b1f;
+    --beyond-card: #242528;
+    --beyond-accent: #c53131;
+    --beyond-border: #3d3d42;
+    --beyond-text: #f0f0f0;
+    
+    /* Fonts */
+    --font-heading: 'Modesto Condensed', 'Roboto', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, #1b1b1f 0%, #0d0d0f 100%);
+    color: var(--beyond-text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.header {
+    background: linear-gradient(135deg, var(--dnd-red) 0%, var(--dnd-red-dark) 100%);
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 20px rgba(197, 49, 49, 0.4);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-dice {
+    font-size: 2rem;
+    animation: diceFloat 2s ease-in-out infinite;
+}
+
+@keyframes diceFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(5deg); }
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-tab {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.8);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-tab:hover {
+    color: white;
+    border-bottom-color: rgba(255,255,255,0.5);
+}
+
+.nav-tab.active {
+    color: white;
+    border-bottom-color: white;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+/* ===== CHARACTER BUILDER VIEW ===== */
+.builder-view {
+    display: grid;
+    grid-template-columns: 300px 1fr 400px;
+    gap: 2rem;
+}
+
+.builder-steps {
+    background: var(--beyond-card);
+    border-radius: 8px;
+    padding: 1.5rem;
+    height: fit-content;
+    border: 1px solid var(--beyond-border);
+}
+
+.builder-step {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.builder-step:hover {
+    background: rgba(197, 49, 49, 0.1);
+}
+
+.builder-step.active {
+    background: rgba(197, 49, 49, 0.2);
+    border-left-color: var(--dnd-red);
+}
+
+.builder-step.complete {
+    opacity: 0.6;
+}
+
+.step-number {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--beyond-border);
+    color: var(--beyond-text);
+    text-align: center;
+    line-height: 28px;
+    margin-right: 0.75rem;
+    font-weight: 700;
+}
+
+.builder-step.complete .step-number {
+    background: var(--dnd-red);
+    color: white;
+}
+
+.builder-step.active .step-number {
+    background: var(--dnd-red);
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* ===== MAIN CONTENT AREA ===== */
+.builder-content {
+    background: var(--beyond-card);
+    border-radius: 8px;
+    padding: 2rem;
+    border: 1px solid var(--beyond-border);
+    min-height: 600px;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--dnd-red);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* ===== CHOICE CARDS ===== */
+.choice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+}
+
+.choice-card {
+    background: var(--beyond-bg);
+    border: 2px solid var(--beyond-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.choice-card:hover {
+    border-color: var(--dnd-red);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(197, 49, 49, 0.3);
+}
+
+.choice-card.selected {
+    border-color: var(--dnd-red);
+    background: rgba(197, 49, 49, 0.1);
+}
+
+.choice-card.selected::before {
+    content: '✓';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    background: var(--dnd-red);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.choice-title {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--dnd-red);
+    margin-bottom: 0.5rem;
+}
+
+.choice-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.choice-details {
+    font-size: 0.95rem;
+    color: var(--beyond-text);
+}
+
+/* ===== CHARACTER PREVIEW SIDEBAR ===== */
+.character-preview {
+    background: var(--beyond-card);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid var(--beyond-border);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.preview-header {
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--beyond-border);
+    margin-bottom: 1rem;
+}
+
+.preview-name {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: var(--dnd-red);
+    margin-bottom: 0.5rem;
+}
+
+.preview-subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.preview-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin: 1rem 0;
+}
+
+.preview-stat {
+    background: var(--beyond-bg);
+    padding: 0.75rem;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.preview-stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.preview-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dnd-red);
+}
+
+/* ===== DICE ROLLER ===== */
+.dice-roller-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.dice-roller-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.dice-container {
+    text-align: center;
+}
+
+.dice-3d {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 2rem;
+    position: relative;
+    animation: rollDice3D 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes rollDice3D {
+    0% { transform: rotateX(0) rotateY(0); }
+    25% { transform: rotateX(180deg) rotateY(90deg); }
+    50% { transform: rotateX(360deg) rotateY(180deg); }
+    75% { transform: rotateX(540deg) rotateY(270deg); }
+    100% { transform: rotateX(720deg) rotateY(360deg); }
+}
+
+.dice-face {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, var(--dnd-red), var(--dnd-red-dark));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: white;
+    font-weight: 900;
+    box-shadow: 
+        0 0 40px rgba(197, 49, 49, 0.6),
+        inset 0 0 20px rgba(255, 255, 255, 0.2);
+    border: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+.dice-result-text {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: white;
+    margin-top: 1rem;
+}
+
+/* ===== OFFICIAL CHARACTER SHEET ===== */
+.sheet-view {
+    display: none;
+}
+
+.sheet-view.active {
+    display: block;
+}
+
+.official-sheet {
+    background: white;
+    max-width: 850px;
+    margin: 2rem auto;
+    padding: 2rem;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    color: #000;
+}
+
+.sheet-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.sheet-input {
+    border: none;
+    border-bottom: 2px solid #000;
+    padding: 0.5rem;
+    font-size: 1rem;
+    background: transparent;
+}
+
+.sheet-input.large {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.sheet-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+.sheet-abilities {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+.ability-box {
+    border: 2px solid #000;
+    border-radius: 4px;
+    padding: 0.75rem;
+    text-align: center;
+}
+
+.ability-name {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.ability-score {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 0.25rem;
+}
+
+.ability-modifier {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+    padding: 0.875rem 2rem;
+    border: none;
+    border-radius: 6px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--dnd-red), var(--dnd-red-dark));
+    color: white;
+    box-shadow: 0 4px 12px rgba(197, 49, 49, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(197, 49, 49, 0.6);
+}
+
+.btn-secondary {
+    background: var(--beyond-border);
+    color: white;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+    .builder-view {
+        grid-template-columns: 1fr;
+    }
+    
+    .character-preview {
+        position: static;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    body {
+        background: white;
+    }
+    
+    .header, .builder-steps, .character-preview, .btn {
+        display: none !important;
+    }
+    
+    .official-sheet {
+        box-shadow: none;
+        max-width: 100%;
+    }
+}
+
+/* ===== FORM INPUTS ===== */
+.search-input, .form-input {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    background: var(--beyond-bg);
+    border: 2px solid var(--beyond-border);
+    border-radius: 6px;
+    color: var(--beyond-text);
+    font-size: 1rem;
+    font-family: var(--font-body);
+    transition: all 0.3s ease;
+}
+
+.search-input:focus, .form-input:focus {
+    outline: none;
+    border-color: var(--dnd-red);
+    box-shadow: 0 0 0 3px rgba(197, 49, 49, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--beyond-text);
+}
+
+/* ===== CHARACTER REVIEW ===== */
+.character-review {
+    animation: fadeIn 0.3s ease;
+}
+
+/* ===== SHEET CONTROLS ===== */
+.sheet-controls {
+    background: var(--beyond-card);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: 1px solid var(--beyond-border);
+}
+
+/* ===== OFFICIAL D&D CHARACTER SHEET ===== */
+.official-sheet {
+    background: white;
+    color: #000;
+    max-width: 850px;
+    margin: 0 auto;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+}
+
+.sheet-page {
+    padding: 2rem;
+    background: white;
+}
+
+.sheet-dnd-header {
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid #000;
+    margin-bottom: 1.5rem;
+}
+
+.sheet-top-row, .sheet-info-row {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.sheet-info-row {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.sheet-field {
+    position: relative;
+}
+
+.sheet-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #000;
+    padding: 0.5rem 0.25rem;
+    font-size: 1rem;
+    font-family: var(--font-body);
+    background: transparent;
+}
+
+.sheet-input.large {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.sheet-input:focus {
+    outline: none;
+    border-bottom-color: var(--dnd-red);
+}
+
+.sheet-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #666;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* ===== SHEET MAIN GRID ===== */
+.sheet-main-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr 280px;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+/* ===== LEFT COLUMN: ABILITIES ===== */
+.sheet-left-column {
+    border-right: 2px solid #ddd;
+    padding-right: 1rem;
+}
+
+.sheet-abilities {
+    margin-bottom: 1.5rem;
+}
+
+.ability-box {
+    border: 2px solid #000;
+    border-radius: 4px;
+    padding: 0.5rem;
+    text-align: center;
+    margin-bottom: 0.75rem;
+}
+
+.ability-name {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.ability-score {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 0.25rem;
+    border: 1px solid #000;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    margin: 0.25rem auto;
+}
+
+.ability-score[contenteditable="true"]:focus {
+    outline: 2px solid var(--dnd-red);
+    background: rgba(197, 49, 49, 0.05);
+}
+
+.ability-modifier {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.sheet-bonus-section {
+    margin-bottom: 1rem;
+}
+
+.bonus-item {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.bonus-input {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: block;
+    margin: 0 auto 0.5rem;
+}
+
+.bonus-item label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.sheet-skills-section h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid #000;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.skill-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+}
+
+.skill-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+.skill-item span {
+    flex: 1;
+}
+
+.skill-value {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #000;
+    border-radius: 3px;
+    padding: 0.125rem;
+}
+
+/* ===== CENTER COLUMN: COMBAT ===== */
+.sheet-center-column {
+    padding: 0 1rem;
+}
+
+.combat-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.combat-stat {
+    text-align: center;
+}
+
+.combat-value {
+    width: 70px;
+    height: 70px;
+    border: 3px solid #000;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    display: block;
+    margin: 0 auto 0.5rem;
+}
+
+.combat-stat label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.hp-section {
+    border: 2px solid #000;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.hp-max, .hp-current {
+    margin-bottom: 0.75rem;
+}
+
+.hp-max input, .hp-current input {
+    width: 100%;
+    border: 1px solid #000;
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.hp-max label, .hp-current label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    font-weight: 700;
+}
+
+.attacks-section, .equipment-section {
+    border: 2px solid #000;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.attacks-section h4, .equipment-section h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid #000;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.attacks-section textarea, .equipment-section textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    resize: vertical;
+}
+
+/* ===== RIGHT COLUMN: TRAITS ===== */
+.sheet-right-column {
+    border-left: 2px solid #ddd;
+    padding-left: 1rem;
+}
+
+.traits-section {
+    margin-bottom: 1rem;
+}
+
+.traits-section label {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-bottom: 2px solid #000;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.traits-section textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    resize: vertical;
+}
+
+.features-section {
+    border: 2px solid #000;
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+.features-section h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid #000;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.features-section textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    resize: vertical;
+}
+
+/* ===== QUICK VIEW ===== */
+.quick-view {
+    animation: fadeIn 0.3s ease;
+}
+
+.ability-scores-grid {
+    display: none;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 1200px) {
+    .builder-view {
+        grid-template-columns: 1fr;
+    }
+    
+    .builder-steps {
+        display: flex;
+        overflow-x: auto;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+    
+    .builder-step {
+        min-width: 150px;
+        margin-bottom: 0;
+    }
+    
+    .character-preview {
+        position: static;
+    }
+    
+    .sheet-main-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .sheet-left-column, .sheet-right-column {
+        border: none;
+        padding: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .choice-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .combat-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .preview-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .sheet-info-row {
+        grid-template-columns: 1fr;
+    }
+}

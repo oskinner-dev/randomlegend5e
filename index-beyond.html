@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RandomLegend">
+    <title>RandomLegend 5e - Character Builder</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style-beyond.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-dice">🎲</span>
+                <span>RandomLegend</span>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" onclick="switchView('builder')">Builder</button>
+                <button class="nav-tab" onclick="switchView('sheet')">Character Sheet</button>
+                <button class="nav-tab" onclick="switchView('quick')">Quick Generate</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- ===== CHARACTER BUILDER VIEW ===== -->
+        <div id="builder-view" class="builder-view">
+            <!-- LEFT: Steps Navigation -->
+            <aside class="builder-steps">
+                <h3 style="margin-bottom: 1.5rem; color: var(--dnd-red); font-family: var(--font-heading); text-transform: uppercase;">Create Character</h3>
+                
+                <div class="builder-step active" onclick="goToStep(1)">
+                    <span class="step-number">1</span>
+                    <span>Race</span>
+                </div>
+                <div class="builder-step" onclick="goToStep(2)">
+                    <span class="step-number">2</span>
+                    <span>Class</span>
+                </div>
+                <div class="builder-step" onclick="goToStep(3)">
+                    <span class="step-number">3</span>
+                    <span>Ability Scores</span>
+                </div>
+                <div class="builder-step" onclick="goToStep(4)">
+                    <span class="step-number">4</span>
+                    <span>Background</span>
+                </div>
+                <div class="builder-step" onclick="goToStep(5)">
+                    <span class="step-number">5</span>
+                    <span>Details</span>
+                </div>
+                <div class="builder-step" onclick="goToStep(6)">
+                    <span class="step-number">6</span>
+                    <span>Review</span>
+                </div>
+
+                <button class="btn btn-primary btn-block" style="margin-top: 2rem;" onclick="randomizeAll()">
+                    ⚡ Randomize All
+                </button>
+            </aside>
+
+            <!-- CENTER: Main Content -->
+            <main class="builder-content">
+                <!-- STEP 1: RACE -->
+                <div id="step-1" class="content-section active">
+                    <h2 class="section-title">Choose Your Race</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Your race determines your character's physical traits, innate abilities, and cultural background.</p>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <input type="text" id="race-search" class="search-input" placeholder="🔍 Search races..." onkeyup="filterRaces()">
+                    </div>
+
+                    <div id="race-grid" class="choice-grid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: right;">
+                        <button class="btn btn-primary" onclick="nextStep()">Next: Choose Class →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: CLASS -->
+                <div id="step-2" class="content-section">
+                    <h2 class="section-title">Choose Your Class</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Your class defines your adventuring skills, special abilities, and role in combat.</p>
+
+                    <div id="class-grid" class="choice-grid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+
+                    <div id="subclass-section" style="margin-top: 2rem; display: none;">
+                        <h3 style="color: var(--dnd-red); font-family: var(--font-heading); margin-bottom: 1rem;">Choose Subclass</h3>
+                        <div id="subclass-grid" class="choice-grid">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: right;">
+                        <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+                        <button class="btn btn-primary" onclick="nextStep()">Next: Ability Scores →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: ABILITY SCORES -->
+                <div id="step-3" class="content-section">
+                    <h2 class="section-title">Determine Ability Scores</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Roll for your character's core attributes.</p>
+
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <button class="btn btn-primary btn-lg" onclick="rollAbilityScores()" style="font-size: 1.5rem; padding: 1.5rem 3rem;">
+                            🎲 Roll 4d6 Drop Lowest
+                        </button>
+                    </div>
+
+                    <div id="ability-scores-display" class="ability-scores-grid">
+                        <!-- Populated after rolling -->
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: right;">
+                        <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+                        <button class="btn btn-primary" onclick="nextStep()">Next: Background →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 4: BACKGROUND -->
+                <div id="step-4" class="content-section">
+                    <h2 class="section-title">Choose Your Background</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Your background reveals where you came from and your place in the world.</p>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <input type="text" id="background-search" class="search-input" placeholder="🔍 Search backgrounds..." onkeyup="filterBackgrounds()">
+                    </div>
+
+                    <div id="background-grid" class="choice-grid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: right;">
+                        <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+                        <button class="btn btn-primary" onclick="nextStep()">Next: Details →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 5: DETAILS -->
+                <div id="step-5" class="content-section">
+                    <h2 class="section-title">Character Details</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Add personality and flavor to your character.</p>
+
+                    <div style="max-width: 600px;">
+                        <div class="form-group">
+                            <label>Character Name</label>
+                            <input type="text" id="char-name-input" class="form-input" placeholder="Enter name or randomize">
+                            <button class="btn btn-secondary" onclick="randomizeName()" style="margin-top: 0.5rem;">🎲 Random Name</button>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Alignment</label>
+                            <select id="alignment-select" class="form-input">
+                                <option>Lawful Good</option>
+                                <option>Neutral Good</option>
+                                <option>Chaotic Good</option>
+                                <option>Lawful Neutral</option>
+                                <option>True Neutral</option>
+                                <option>Chaotic Neutral</option>
+                                <option>Lawful Evil</option>
+                                <option>Neutral Evil</option>
+                                <option>Chaotic Evil</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Personality Trait</label>
+                            <textarea id="personality-input" class="form-input" rows="3" placeholder="Describe your character's personality"></textarea>
+                            <button class="btn btn-secondary" onclick="randomizePersonality()" style="margin-top: 0.5rem;">🎲 Random Trait</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: right;">
+                        <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+                        <button class="btn btn-primary" onclick="nextStep()">Next: Review →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 6: REVIEW -->
+                <div id="step-6" class="content-section">
+                    <h2 class="section-title">Review Character</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Review your character and finalize creation.</p>
+
+                    <div id="character-review" class="character-review">
+                        <!-- Populated by JavaScript -->
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+                        <button class="btn btn-primary btn-lg" onclick="finalizeCharacter()">✓ Create Character</button>
+                    </div>
+                </div>
+            </main>
+
+            <!-- RIGHT: Character Preview -->
+            <aside class="character-preview">
+                <div class="preview-header">
+                    <h3 class="preview-name" id="preview-name">New Character</h3>
+                    <p class="preview-subtitle" id="preview-subtitle">Select options to build</p>
+                </div>
+
+                <div class="preview-stats">
+                    <div class="preview-stat">
+                        <div class="preview-stat-label">STR</div>
+                        <div class="preview-stat-value" id="preview-str">-</div>
+                    </div>
+                    <div class="preview-stat">
+                        <div class="preview-stat-label">DEX</div>
+                        <div class="preview-stat-value" id="preview-dex">-</div>
+                    </div>
+                    <div class="preview-stat">
+                        <div class="preview-stat-label">CON</div>
+                        <div class="preview-stat-value" id="preview-con">-</div>
+                    </div>
+                    <div class="preview-stat">
+                        <div class="preview-stat-label">INT</div>
+                        <div class="preview-stat-value" id="preview-int">-</div>
+                    </div>
+                    <div class="preview-stat">
+                        <div class="preview-stat-label">WIS</div>
+                        <div class="preview-stat-value" id="preview-wis">-</div>
+                    </div>
+                    <div class="preview-stat">
+                        <div class="preview-stat-label">CHA</div>
+                        <div class="preview-stat-value" id="preview-cha">-</div>
+                    </div>
+                </div>
+
+                <div id="preview-traits" style="margin-top: 1.5rem;">
+                    <!-- Populated with selected traits -->
+                </div>
+            </aside>
+        </div>
+
+        <!-- ===== CHARACTER SHEET VIEW ===== -->
+        <div id="sheet-view" class="sheet-view">
+            <div class="sheet-controls">
+                <button class="btn btn-primary" onclick="editSheet()">✏️ Edit Mode</button>
+                <button class="btn btn-primary" onclick="exportToPDF()">📄 Export PDF</button>
+                <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+                <button class="btn btn-secondary" onclick="switchView('builder')">← Back to Builder</button>
+            </div>
+
+            <!-- Official D&D Character Sheet -->
+            <div class="official-sheet" id="official-sheet">
+                <!-- Page 1: Main Character Sheet -->
+                <div class="sheet-page">
+                    <!-- D&D Logo Header -->
+                    <div class="sheet-dnd-header">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Ctext x='10' y='35' font-family='serif' font-size='24' font-weight='bold' fill='%23000'%3EDUNGEONS %26 DRAGONS%3C/text%3E%3C/svg%3E" alt="D&D">
+                    </div>
+
+                    <!-- Top Row: Name, Class, Background, etc. -->
+                    <div class="sheet-top-row">
+                        <div class="sheet-field sheet-field-large">
+                            <input type="text" id="sheet-char-name" class="sheet-input large" value="Character Name">
+                            <label class="sheet-label">Character Name</label>
+                        </div>
+                    </div>
+
+                    <div class="sheet-info-row">
+                        <div class="sheet-field">
+                            <input type="text" id="sheet-class-level" class="sheet-input" value="Fighter 1">
+                            <label class="sheet-label">Class & Level</label>
+                        </div>
+                        <div class="sheet-field">
+                            <input type="text" id="sheet-background" class="sheet-input" value="Soldier">
+                            <label class="sheet-label">Background</label>
+                        </div>
+                        <div class="sheet-field">
+                            <input type="text" id="sheet-player-name" class="sheet-input" value="Player Name">
+                            <label class="sheet-label">Player Name</label>
+                        </div>
+                    </div>
+
+                    <div class="sheet-info-row">
+                        <div class="sheet-field">
+                            <input type="text" id="sheet-race" class="sheet-input" value="Human">
+                            <label class="sheet-label">Race</label>
+                        </div>
+                        <div class="sheet-field">
+                            <input type="text" id="sheet-alignment" class="sheet-input" value="Lawful Good">
+                            <label class="sheet-label">Alignment</label>
+                        </div>
+                        <div class="sheet-field">
+                            <input type="text" id="sheet-xp" class="sheet-input" value="0">
+                            <label class="sheet-label">Experience Points</label>
+                        </div>
+                    </div>
+
+                    <!-- Main Content Grid -->
+                    <div class="sheet-main-grid">
+                        <!-- LEFT COLUMN: Abilities & Skills -->
+                        <div class="sheet-left-column">
+                            <!-- Ability Scores -->
+                            <div class="sheet-abilities">
+                                <div class="ability-box" data-ability="str">
+                                    <div class="ability-name">Strength</div>
+                                    <div class="ability-score" contenteditable="true">10</div>
+                                    <div class="ability-modifier">+0</div>
+                                </div>
+                                <div class="ability-box" data-ability="dex">
+                                    <div class="ability-name">Dexterity</div>
+                                    <div class="ability-score" contenteditable="true">10</div>
+                                    <div class="ability-modifier">+0</div>
+                                </div>
+                                <div class="ability-box" data-ability="con">
+                                    <div class="ability-name">Constitution</div>
+                                    <div class="ability-score" contenteditable="true">10</div>
+                                    <div class="ability-modifier">+0</div>
+                                </div>
+                                <div class="ability-box" data-ability="int">
+                                    <div class="ability-name">Intelligence</div>
+                                    <div class="ability-score" contenteditable="true">10</div>
+                                    <div class="ability-modifier">+0</div>
+                                </div>
+                                <div class="ability-box" data-ability="wis">
+                                    <div class="ability-name">Wisdom</div>
+                                    <div class="ability-score" contenteditable="true">10</div>
+                                    <div class="ability-modifier">+0</div>
+                                </div>
+                                <div class="ability-box" data-ability="cha">
+                                    <div class="ability-name">Charisma</div>
+                                    <div class="ability-score" contenteditable="true">10</div>
+                                    <div class="ability-modifier">+0</div>
+                                </div>
+                            </div>
+
+                            <!-- Inspiration, Proficiency, Passive Perception -->
+                            <div class="sheet-bonus-section">
+                                <div class="bonus-item">
+                                    <input type="text" class="bonus-input" value="">
+                                    <label>Inspiration</label>
+                                </div>
+                                <div class="bonus-item">
+                                    <input type="text" class="bonus-input" value="+2">
+                                    <label>Proficiency Bonus</label>
+                                </div>
+                            </div>
+
+                            <!-- Saving Throws & Skills -->
+                            <div class="sheet-skills-section">
+                                <h4>Saving Throws</h4>
+                                <div class="skill-item">
+                                    <input type="checkbox"><span>Strength</span><input type="text" class="skill-value" value="+0">
+                                </div>
+                                <div class="skill-item">
+                                    <input type="checkbox"><span>Dexterity</span><input type="text" class="skill-value" value="+0">
+                                </div>
+                                <!-- ... more saves -->
+
+                                <h4 style="margin-top: 1rem;">Skills</h4>
+                                <div class="skill-item">
+                                    <input type="checkbox"><span>Acrobatics (Dex)</span><input type="text" class="skill-value" value="+0">
+                                </div>
+                                <!-- ... all 18 skills -->
+                            </div>
+                        </div>
+
+                        <!-- CENTER COLUMN: Combat Stats & Equipment -->
+                        <div class="sheet-center-column">
+                            <!-- AC, Initiative, Speed -->
+                            <div class="combat-stats">
+                                <div class="combat-stat">
+                                    <input type="text" class="combat-value" value="10">
+                                    <label>Armor Class</label>
+                                </div>
+                                <div class="combat-stat">
+                                    <input type="text" class="combat-value" value="+0">
+                                    <label>Initiative</label>
+                                </div>
+                                <div class="combat-stat">
+                                    <input type="text" class="combat-value" value="30">
+                                    <label>Speed</label>
+                                </div>
+                            </div>
+
+                            <!-- HP -->
+                            <div class="hp-section">
+                                <div class="hp-max">
+                                    <input type="text" value="10">
+                                    <label>Hit Point Maximum</label>
+                                </div>
+                                <div class="hp-current">
+                                    <input type="text" value="10">
+                                    <label>Current Hit Points</label>
+                                </div>
+                            </div>
+
+                            <!-- Attacks & Spellcasting -->
+                            <div class="attacks-section">
+                                <h4>Attacks & Spellcasting</h4>
+                                <textarea rows="8"></textarea>
+                            </div>
+
+                            <!-- Equipment -->
+                            <div class="equipment-section">
+                                <h4>Equipment</h4>
+                                <textarea rows="10"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT COLUMN: Features & Traits -->
+                        <div class="sheet-right-column">
+                            <!-- Personality Traits -->
+                            <div class="traits-section">
+                                <label>Personality Traits</label>
+                                <textarea rows="3"></textarea>
+                            </div>
+                            
+                            <!-- Ideals -->
+                            <div class="traits-section">
+                                <label>Ideals</label>
+                                <textarea rows="2"></textarea>
+                            </div>
+
+                            <!-- Bonds -->
+                            <div class="traits-section">
+                                <label>Bonds</label>
+                                <textarea rows="2"></textarea>
+                            </div>
+
+                            <!-- Flaws -->
+                            <div class="traits-section">
+                                <label>Flaws</label>
+                                <textarea rows="2"></textarea>
+                            </div>
+
+                            <!-- Features & Traits -->
+                            <div class="features-section">
+                                <h4>Features & Traits</h4>
+                                <textarea rows="15"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page 2: Additional Character Info (Blank for filling) -->
+                <!-- Page 3: Spellcasting (Blank for filling) -->
+            </div>
+        </div>
+
+        <!-- ===== QUICK GENERATE VIEW ===== -->
+        <div id="quick-view" class="quick-view" style="display: none;">
+            <div style="text-align: center; padding: 4rem 2rem;">
+                <h1 style="font-family: var(--font-heading); font-size: 3rem; color: var(--dnd-red); margin-bottom: 2rem;">Quick Character Generation</h1>
+                <p style="font-size: 1.3rem; color: var(--text-muted); margin-bottom: 3rem;">Generate a complete random character instantly</p>
+                
+                <button class="btn btn-primary" style="font-size: 2rem; padding: 2rem 4rem;" onclick="quickGenerate()">
+                    ⚡ Generate Random Character
+                </button>
+
+                <div id="quick-result" style="margin-top: 3rem;">
+                    <!-- Quick generation result -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DICE ROLLER OVERLAY -->
+    <div id="dice-roller-overlay" class="dice-roller-overlay">
+        <div class="dice-container">
+            <div class="dice-3d">
+                <div class="dice-face" id="dice-face">20</div>
+            </div>
+            <div class="dice-result-text" id="dice-result-text">Rolling...</div>
+        </div>
+    </div>
+
+    <!-- Load Data & Scripts -->
+    <script src="races-data.js"></script>
+    <script src="classes-data.js"></script>
+    <script src="backgrounds-data.js"></script>
+    <script src="app-beyond.js"></script>
+</body>
+</html>
